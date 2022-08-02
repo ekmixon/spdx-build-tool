@@ -33,14 +33,13 @@ class MultiPackageDownloader:
         file_to_write = '{0}pkg_list.txt'.format(
             normalize_path(self.download_dir))
         self.pkf_file_list = file_to_write
-        pkg_list_file = open(file_to_write, 'w+')
-        for item in self.pkg_list:
-            if os.path.exists(self.node_modules_dir):
-                if not self.check_if_pkg_exists(item[0]):
+        with open(file_to_write, 'w+') as pkg_list_file:
+            for item in self.pkg_list:
+                if os.path.exists(self.node_modules_dir):
+                    if not self.check_if_pkg_exists(item[0]):
+                        pkg_list_file.write("{0}@{1}\n".format(item[0], item[1]))
+                else:
                     pkg_list_file.write("{0}@{1}\n".format(item[0], item[1]))
-            else:
-                pkg_list_file.write("{0}@{1}\n".format(item[0], item[1]))
-        pkg_list_file.close()
         # self.download_items()
 
 

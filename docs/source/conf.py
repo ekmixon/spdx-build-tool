@@ -175,7 +175,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = metadata.project_no_spaces + 'doc'
+htmlhelp_basename = f'{metadata.project_no_spaces}doc'
 
 
 # -- Options for LaTeX output -------------------------------------------------
@@ -195,10 +195,15 @@ latex_elements = {
 # (source start file, target name, title, author,
 # documentclass [howto/manual]).
 latex_documents = [
-    ('index', metadata.project_no_spaces + '.tex',
-     metadata.project + ' Documentation', metadata.authors_string,
-     'manual'),
+    (
+        'index',
+        f'{metadata.project_no_spaces}.tex',
+        f'{metadata.project} Documentation',
+        metadata.authors_string,
+        'manual',
+    )
 ]
+
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -226,9 +231,15 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', metadata.package, metadata.project + ' Documentation',
-     metadata.authors_string, 1)
+    (
+        'index',
+        metadata.package,
+        f'{metadata.project} Documentation',
+        metadata.authors_string,
+        1,
+    )
 ]
+
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
@@ -240,10 +251,17 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', metadata.project_no_spaces,
-     metadata.project + ' Documentation', metadata.authors_string,
-     metadata.project_no_spaces, metadata.description, 'Miscellaneous'),
+    (
+        'index',
+        metadata.project_no_spaces,
+        f'{metadata.project} Documentation',
+        metadata.authors_string,
+        metadata.project_no_spaces,
+        metadata.description,
+        'Miscellaneous',
+    )
 ]
+
 
 # Documents to append as an appendix to all manuals.
 #texinfo_appendices = []

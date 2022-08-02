@@ -56,7 +56,9 @@ class NpmFileParser(object):
             dir_list = self.file_dir.split('/')
             parent_dir = '/'.join(dir_list[:-1])
             for name in os.listdir(parent_dir):
-                if os.path.isdir('{0}/{1}'.format(parent_dir, name)):
-                    if name == "node_modules":
-                        self.node_modules_dir = normalize_path('{0}/{1}'.format(
-                        parent_dir, name))
+                if (
+                    os.path.isdir('{0}/{1}'.format(parent_dir, name))
+                    and name == "node_modules"
+                ):
+                    self.node_modules_dir = normalize_path('{0}/{1}'.format(
+                    parent_dir, name))

@@ -16,9 +16,10 @@ def main(argv):
     :param argv: command-line arguments
     :type argv: :class:`list`
     """
-    author_strings = []
-    for name, email in zip(metadata.authors, metadata.emails):
-        author_strings.append('Author: {0} <{1}>'.format(name, email))
+    author_strings = [
+        'Author: {0} <{1}>'.format(name, email)
+        for name, email in zip(metadata.authors, metadata.emails)
+    ]
 
     epilog = '''
 {project} {version}

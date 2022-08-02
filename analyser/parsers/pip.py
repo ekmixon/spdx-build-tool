@@ -102,7 +102,7 @@ LOCAL_REGEX = re.compile(
 
 # Copied from pip
 # https://github.com/pypa/pip/blob/281eb61b09d87765d7c2b92f6982b3fe76ccb0af/pip/index.py#L947
-HASH_ALGORITHMS = set(['sha1', 'sha224', 'sha384', 'sha256', 'sha512', 'md5'])
+HASH_ALGORITHMS = {'sha1', 'sha224', 'sha384', 'sha256', 'sha512', 'md5'}
 
 extras_require_search = re.compile(
     r'(?P<name>.+)\[(?P<extras>[^\]]+)\]').search
@@ -127,11 +127,10 @@ def parse_fragment(fragment_string):
 
 def get_hash_info(d):
     """Returns the first matching hashlib name and value from a dict"""
-    for key in d.keys():
-        if key.lower() in HASH_ALGORITHMS:
-            return key, d[key]
-
-    return None, None
+    return next(
+        ((key, d[key]) for key in d.keys() if key.lower() in HASH_ALGORITHMS),
+        (None, None),
+    )
 
 
 def parse_extras_require(egg):
@@ -354,8 +353,7 @@ def parse_pip_requirement_string(reqstr):
             new_file_path = os.path.join(os.path.dirname(filename or '.'),
                                          new_filename)
             with open(new_file_path) as f:
-                for requirement in parse(f):
-                    yield requirement
+                yield from parse(f)
         elif line.startswith('-f') or line.startswith('--find-links') or \
                 line.startswith('-i') or line.startswith('--index-url') or \
                 line.startswith('--extra-index-url') or \

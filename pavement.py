@@ -69,12 +69,7 @@ def _doc_make(*make_args):
 
     :return: exit code
     """
-    if sys.platform == 'win32':
-        # Windows
-        make_cmd = ['make.bat']
-    else:
-        # Linux, Mac OS X, and others
-        make_cmd = ['make']
+    make_cmd = ['make.bat'] if sys.platform == 'win32' else ['make']
     make_cmd.extend(make_args)
 
     # Account for a stupid Python "bug" on Windows:
@@ -242,16 +237,12 @@ def get_tasks():
 @task
 def doc_html():
     """Build the HTML docs."""
-    retcode = _doc_make('html')
-
-    if retcode:
+    if retcode := _doc_make('html'):
         raise SystemExit(retcode)
 
 
 @task
 def doc_clean():
     """Clean (delete) the built docs."""
-    retcode = _doc_make('clean')
-
-    if retcode:
+    if retcode := _doc_make('clean'):
         raise SystemExit(retcode)

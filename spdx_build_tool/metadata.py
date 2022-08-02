@@ -4,6 +4,7 @@
 Information describing the project.
 """
 
+
 # The package name, which is also the "UNIX name" for the project.
 package = 'spdx_build_tool'
 project = "SPDX Build tool"
@@ -14,5 +15,5 @@ authors = ['Ndip Tanyi']
 authors_string = ', '.join(authors)
 emails = ['owenhojunior@gmail.com']
 license = 'MIT'
-copyright = '2018 ' + authors_string
+copyright = f'2018 {authors_string}'
 url = 'https://github.com/spdx/'

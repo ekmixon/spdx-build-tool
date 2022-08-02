@@ -76,10 +76,9 @@ def get_project_files():
             if subdir.startswith('.'):
                 subdirs.remove(subdir)
 
-        for f in files:
-            if f.startswith('.'):
-                continue
-            project_files.append(os.path.join(top, f))
+        project_files.extend(
+            os.path.join(top, f) for f in files if not f.startswith('.')
+        )
 
     return project_files
 
@@ -118,8 +117,7 @@ def git_ls_files(*cmd_args):
     :return: set of file names
     :rtype: :class:`set`
     """
-    cmd = ['git', 'ls-files']
-    cmd.extend(cmd_args)
+    cmd = ['git', 'ls-files', *cmd_args]
     return set(subprocess.check_output(cmd).splitlines())
 
 

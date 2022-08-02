@@ -37,9 +37,9 @@ class NpmPackageManager(object):
         self.json_obj = NpmFileParser(self.files_to_parse[0][0], self.in_tests)
         dep_list = []
         if self.json_obj.dependencies:
-            dep_list = dep_list + list(self.json_obj.dependencies.items())
+            dep_list += list(self.json_obj.dependencies.items())
         if self.json_obj.devDependencies:
-            dep_list = dep_list + list(self.json_obj.devDependencies.items())
+            dep_list += list(self.json_obj.devDependencies.items())
         self.dep_list = dep_list
         self.scan_pkg(self.project_dir)
         if not self.in_tests:

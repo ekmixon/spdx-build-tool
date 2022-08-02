@@ -4,11 +4,11 @@ NPM_REGISTRY_URL = 'https://registry.npmjs.org'
 
 
 def build_all_versions_url(name):
-    return '{}/{}'.format(NPM_REGISTRY_URL, name)
+    return f'{NPM_REGISTRY_URL}/{name}'
 
 
 def build_version_url(name, version):
-    return '{}/{}/{}'.format(NPM_REGISTRY_URL, name, version)
+    return f'{NPM_REGISTRY_URL}/{name}/{version}'
 
 
 def build_tarball_url(name, version):
@@ -20,13 +20,11 @@ def build_tarball_url(name, version):
 
 
 def build_filename(name, version):
-    return '{}-{}.tgz'.format(unscope_name(name), version)
+    return f'{unscope_name(name)}-{version}.tgz'
 
 
 def normalize_package(name):
-    if is_scoped(name):
-        return name.replace('/', '%2f')
-    return name
+    return name.replace('/', '%2f') if is_scoped(name) else name
 
 
 def is_scoped(name):
@@ -34,9 +32,7 @@ def is_scoped(name):
 
 
 def unscope_name(scoped_name):
-    if is_scoped(scoped_name):
-        return scoped_name.split('%2f')[1]
-    return scoped_name
+    return scoped_name.split('%2f')[1] if is_scoped(scoped_name) else scoped_name
 
 
 def is_uri(version):
@@ -48,9 +44,7 @@ def is_uri(version):
         return True
     if version.startswith('https://'):
         return True
-    if version.startswith('git://'):
-        return True
-    return False
+    return bool(version.startswith('git://'))
 
 
 def parse_uri(uri):
@@ -84,8 +78,7 @@ async def copyfileobj(fsrc, fdst, length=16 * 1024):
 def multi_pop(queue, count=10):
     items = []
     try:
-        for _ in range(count):
-            items.append(queue.pop())
+        items.extend(queue.pop() for _ in range(count))
     except IndexError:
         pass
     return items

@@ -65,10 +65,10 @@ def normalize_path(path):
     """
     if path:
         if path[0] != "/":
-            path = "/" + path
+            path = f"/{path}"
 
         if path[-1] != "/":
-            path = path + "/"
+            path = f"{path}/"
 
         path = _MULTIPLE_PATHS.sub("/", path)
     else:
@@ -87,7 +87,7 @@ def normalize_file_path(path):
     """
     if path:
         if path[0] != "/":
-            path = "/" + path
+            path = f"/{path}"
 
         path = _MULTIPLE_PATHS.sub("/", path)
     else:
@@ -100,20 +100,23 @@ def check_file(project_dir, filename_to_check):
     """recursively check if file exists in directory"""
     matches = []
     for root, dirnames, filenames in os.walk(project_dir):
-        for filename in fnmatch.filter(filenames, filename_to_check):
-            matches.append(os.path.join(root, filename))
+        matches.extend(
+            os.path.join(root, filename)
+            for filename in fnmatch.filter(filenames, filename_to_check)
+        )
+
     return matches
 
 
 def check_file_in_dir(project_dir, file_name_to_check):
     """Check if file exists in directory."""
-    matches = []
-    # @TODO: Ndip: ommit this folder, because it will be found in the project being acted upon
-    for filename in glob.glob(
-            '{0}/{1}'.format(project_dir, file_name_to_check), recursive=False):
-        matches.append(filename)
-    matches2 = [normalize_file_path(item) for item in matches]
-    return matches2
+    matches = list(
+        glob.glob(
+            '{0}/{1}'.format(project_dir, file_name_to_check), recursive=False
+        )
+    )
+
+    return [normalize_file_path(item) for item in matches]
 
 
 def print_to_command_line(msg, print_type):

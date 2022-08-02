@@ -104,7 +104,7 @@ class NpmPackage:
         package_info = await self.get_package_json()
         dependencies = {}
         if 'dependencies' in package_info:
-            dependencies.update(package_info['dependencies'])
+            dependencies |= package_info['dependencies']
         if 'peerDependencies' in package_info:
             dependencies.update(package_info['peerDependencies'])
         return dependencies
@@ -226,7 +226,7 @@ class MultiPackageDownloader:
         for i, package in enumerate(packages):
             package_groups[i % self._num_of_workers].append(package)
         for group in package_groups:
-            yield [package for package in group]
+            yield list(group)
 
     def start(self):
         self._workers = []
